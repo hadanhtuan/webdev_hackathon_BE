@@ -13,7 +13,7 @@ const signupUserSchema = joi.object({
   school: joi.string().empty('').required(),
   major: joi.string(),
   student_id: joi.string().empty('').required(),
-  phone_number: joi.number().required(),
+  phone_number: joi.string().required(),
   facebook: joi.string().empty('').required(),
   short_introduction: joi.string(),
   personal_registration: joi.boolean().required(),
