@@ -22,6 +22,7 @@ module.exports = {
     return user;
   },
   createToken: (userId) => {
-    return jwt.sign({ id: userId }, process.env.SECRET);
+    const token = jwt.sign({ id: userId }, process.env.SECRET);
+    return token;
   },
 };
