@@ -1,5 +1,5 @@
 const { loginUserSchema } = require('../../../../validators/user');
-const AppError = require('../../../../common/error/error');
+const { AppError } = require('../../../../common/error/error');
 const User = require('../../../../models/user');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -11,7 +11,7 @@ module.exports = {
     if (error) {
       throw new AppError(400, 'Invalid username or password');
     }
-    const user = await User.findOne(username);
+    const user = await User.findOne({ username });
     if (!user) {
       throw new AppError(404, 'Admin not found');
     }

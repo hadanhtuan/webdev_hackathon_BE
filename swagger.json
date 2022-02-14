@@ -183,6 +183,9 @@
           "400": {
             "description": "Bad request"
           },
+          "409": {
+            "description": "User exists"
+          },
           "500": {
             "description": "Internal server error"
           }
@@ -322,6 +325,9 @@
           },
           "500": {
             "description": "Internal server error"
+          },
+          "404": {
+            "description": "admin not found"
           }
         }
       }

@@ -4,10 +4,10 @@ module.exports = {
   login: async (req, res, next) => {
     try {
       const { username, password } = req.body;
-      const user = authService.login(username, password);
+      const user = await authService.login(username, password);
+      const token = authService.createToken(user._id.toString());
       res.status(200).json({
-        user,
-        token: authService.createToken(user._id.toString()),
+        token,
       });
     } catch (err) {
       next(err);
