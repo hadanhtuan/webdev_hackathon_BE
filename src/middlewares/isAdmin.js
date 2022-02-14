@@ -1,4 +1,4 @@
-const AppError = require('../common/error/error');
+const { AppError } = require('../common/error/error');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 require('dotenv').config();
