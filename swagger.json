@@ -20,7 +20,7 @@
     }
   },
   "paths": {
-    "/api/v1/user/login": {
+    "/api/v1/user/auth/login": {
       "post": {
         "tags": ["user"],
         "summary": "User login",
@@ -113,7 +113,7 @@
         }
       }
     },
-    "/api/v1/user/sign-up": {
+    "/api/v1/user/auth/sign-up": {
       "post": {
         "tags": ["user"],
         "summary": "User sign up",
@@ -277,7 +277,7 @@
         }
       }
     },
-    "/api/v1/admin/login": {
+    "/api/v1/admin/auth/login": {
       "post": {
         "tags": ["admin"],
         "summary": "Admin login",
