@@ -36,7 +36,7 @@ const editUserSchema = joi.object({
 });
 
 module.exports = {
-  loginSchema,
-  signupSchema,
+  loginUserSchema,
+  signupUserSchema,
   editUserSchema,
 };
