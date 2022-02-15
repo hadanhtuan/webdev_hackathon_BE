@@ -3,5 +3,8 @@ const teamsController = require('./teams.controller');
 
 router.get('/', teamsController.getTeams);
 router.post('/', teamsController.createTeam);
+router.get('/:id', teamsController.getTeamById);
+router.post('/:id', teamsController.addUserToTeam);
+router.delete('/:id/:user_code', teamsController.removeUserFromTeam);
 
 module.exports = router;
