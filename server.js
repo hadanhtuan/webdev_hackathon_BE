@@ -22,6 +22,10 @@ app.use(
     ...swaggerDoc,
     servers: [
       {
+        url: `${process.env.SERVER_ADDRESS}:${port}`,
+        description: 'Production server',
+      },
+      {
         url: `http://localhost:${port}`,
         description: 'Localhost server',
       },
