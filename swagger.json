@@ -639,6 +639,11 @@
       "get": {
         "summary": "Get user by id",
         "tags": ["admin"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "in": "path",
@@ -804,6 +809,211 @@
           },
           "401": {
             "description": "Not authorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/teams/{id}": {
+      "get": {
+        "tags": ["admin", "teams"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Get team detail by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The team id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "description": "Team id",
+                      "type": "string"
+                    },
+                    "allow_add_number": {
+                      "type": "boolean",
+                      "readOnly": true
+                    },
+                    "email_to_contact": {
+                      "type": "string",
+                      "readOnly": true
+                    },
+                    "name": {
+                      "type": "string",
+                      "readOnly": true
+                    },
+                    "score": {
+                      "type": "number",
+                      "default": null,
+                      "readOnly": true
+                    },
+                    "link_submission": {
+                      "type": "string",
+                      "default": null
+                    },
+                    "fee_status": {
+                      "type": "boolean"
+                    },
+                    "team_member": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "email": {
+                            "type": "string"
+                          },
+                          "fullname": {
+                            "type": "string"
+                          },
+                          "school": {
+                            "type": "string"
+                          },
+                          "major": {
+                            "type": "string"
+                          },
+                          "student_id": {
+                            "type": "string"
+                          },
+                          "phone_number": {
+                            "type": "string"
+                          },
+                          "facebook": {
+                            "type": "string"
+                          },
+                          "short_introduction": {
+                            "type": "string"
+                          },
+                          "personal_registration": {
+                            "type": "boolean"
+                          },
+                          "user_code": {
+                            "type": "string"
+                          },
+                          "fee_status": {
+                            "type": "boolean"
+                          },
+                          "team_id": {
+                            "type": "string"
+                          },
+                          "note_by_admin": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid id"
+          },
+          "404": {
+            "description": "Team not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Add user to team",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["admin", "teams"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user_code": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Add to team successful"
+          },
+          "400": {
+            "description": "Invalid Input"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "User or team not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/teams/{id}/{user_code}": {
+      "delete": {
+        "summary": "Remove member from team",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The team id"
+          },
+          {
+            "in": "path",
+            "name": "user_code",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "User Code"
+          }
+        ],
+        "tags": ["admin", "teams"],
+        "responses": {
+          "200": {
+            "description": "Delete successful"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "User or Team not found"
           },
           "500": {
             "description": "Internal server error"

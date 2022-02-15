@@ -2,6 +2,7 @@ const Team = require('../../../../models/team');
 const User = require('../../../../models/user');
 const { AppError } = require('../../../../common/error/error');
 const { createTeamSchema } = require('../../../../validators/team');
+const mongoose = require('mongoose');
 
 module.exports = {
   getTeams: async (name, email) => {
@@ -48,6 +49,52 @@ module.exports = {
 
     await Promise.all(changeUserTeamPromises);
     return teamDoc;
+  },
+  getTeamById: async (id) => {
+    if (id.length !== 24) {
+      // mongo object id length: 24
+      throw new AppError(400, 'Invalid Object Id');
+    }
+    const team = await Team.findById(id).select('-__v');
+    if (!team) {
+      throw new AppError(404, 'Team not found');
+    }
+    const teamMembers = await User.find({ team_id: team._id })
+      .select('-password -__v')
+      .exec();
+    return { ...team._doc, teamMembers };
+  },
+  addUserToTeam: async (user_code, teamId) => {
+    const user = await User.findOne({ user_code });
+    if (!user) {
+      throw new AppError(404, 'User not found');
+    }
+    if (teamId.length !== 24) {
+      // mongo object id length: 24
+      throw new AppError(400, 'Invalid Object Id');
+    }
+    const team = await Team.findById(teamId);
+    if (!team) {
+      throw new AppError(404, 'Team not found');
+    }
+    user.team_id = new mongoose.Types.ObjectId(teamId);
+    return user.save();
+  },
+  removeUserFromTeam: async ({ teamId, user_code }) => {
+    const user = await User.findOne({ user_code });
+    if (!user) {
+      throw new AppError(404, 'User not found');
+    }
+    if (teamId.length !== 24) {
+      // mongo object id length: 24
+      throw new AppError(400, 'Invalid Object Id');
+    }
+    const team = await Team.findById(teamId);
+    if (!team) {
+      throw new AppError(404, 'Team not found');
+    }
+    user.team_id = null;
+    return user.save();
   },
 };
 

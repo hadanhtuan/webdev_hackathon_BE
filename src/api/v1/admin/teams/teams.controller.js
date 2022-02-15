@@ -26,4 +26,37 @@ module.exports = {
       next(error);
     }
   },
+  getTeamById: async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const team = await teamsService.getTeamById(id);
+      res.status(200).json(team);
+    } catch (error) {
+      next(error);
+    }
+  },
+  addUserToTeam: async (req, res, next) => {
+    try {
+      const { user_code } = req.body;
+      const { id: teamId } = req.params;
+      await teamsService.addUserToTeam(user_code, teamId);
+      res.status(201).json({
+        message: 'Add to team successful',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
+  removeUserFromTeam: async (req, res, next) => {
+    try {
+      const { id, user_code } = req.params;
+
+      await teamsService.removeUserFromTeam({ teamId: id, user_code });
+      res.status(200).json({
+        message: 'Remove from team successful',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
