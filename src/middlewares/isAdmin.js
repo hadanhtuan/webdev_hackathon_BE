@@ -1,5 +1,5 @@
-const { AppError } = require('../common/error/error');
 const jwt = require('jsonwebtoken');
+const { AppError } = require('../common/error/error');
 const User = require('../models/user');
 require('dotenv').config();
 
@@ -29,7 +29,7 @@ const isAdmin = async (req, res, next) => {
       throw new AppError(401, 'Not authorized');
     }
 
-    req.user = user;
+    req.body.user = user;
     next();
   } catch (err) {
     next(err);

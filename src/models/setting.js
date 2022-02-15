@@ -1,18 +1,14 @@
-const mongoose=require('mongoose')
-const Schema=mongoose.Schema
+const mongoose = require('mongoose');
 
-const settingSchema=new Schema({
-    allow_update_link_submission: {
-        type: Boolean,
-        required: true,
-        default: true
-    }
-})
+const { Schema } = mongoose;
 
+const settingSchema = new Schema({
+  allow_update_link_submission: {
+    type: Boolean,
+    required: true,
+    default: true,
+  },
+});
 
-const Setting=mongoose.model('Setting', settingSchema)
-module.exports=Setting
-
-
-
-
+const Setting = mongoose.model('Setting', settingSchema);
+module.exports = Setting;
