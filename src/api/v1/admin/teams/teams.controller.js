@@ -5,7 +5,7 @@ module.exports = {
     try {
       const { name, email } = req.query;
       const teams = await teamsService.getTeams(name, email);
-      res.status(200).json({ teams });
+      res.status(200).json(teams);
     } catch (error) {
       next(error);
     }

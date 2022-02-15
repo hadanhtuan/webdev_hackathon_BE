@@ -12,10 +12,17 @@ module.exports = {
       email = '';
     }
 
-    return Team.find({
+    const teams = await Team.find({
       name: { $regex: new RegExp(name, 'i') },
       email: { $regex: new RegExp(email, 'i') },
     });
+    const teamsWithNumMem = await Promise.all(
+      teams.map(async (team) => {
+        const numberTeamMember = await User.find({ team_id: team._id }).count();
+        return { ...team._doc, numberTeamMember };
+      })
+    );
+    return teamsWithNumMem;
   },
   createTeam: async (teamData) => {
     const { error, value } = createTeamSchema.validate(teamData);
