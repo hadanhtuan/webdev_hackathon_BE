@@ -2,8 +2,8 @@ const router = require('express').Router();
 const isAdmin = require('../../../../middlewares/isAdmin')
 
 
-const userController = require('./user.controller');
+const usersController = require('./users.controller');
 
-router.get('/', isAdmin, userController.getUsers);
+router.get('/', usersController.getUsers);
 
 module.exports = router;
