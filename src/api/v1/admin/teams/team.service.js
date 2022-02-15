@@ -1,6 +1,7 @@
 const Team = require('../../../../models/team');
 const User = require('../../../../models/user');
 const { AppError } = require('../../../../common/error/error');
+const { createTeamSchema } = require('../../../../validators/team');
 
 module.exports = {
   getTeams: async (name, email) => {
@@ -16,19 +17,21 @@ module.exports = {
       email: { $regex: new RegExp(email, 'i') },
     });
   },
-  createTeam: async ({
-    email_to_contact,
-    name,
-    link_submission,
-    user_codes,
-  }) => {
+  createTeam: async (teamData) => {
+    const { error, value } = createTeamSchema.validate(teamData);
+    if (error) {
+      throw new AppError(400, 'Invalid input data');
+    }
     const users = await Promise.all(
-      user_codes.map((code) => {
+      teamData.user_codes.map((code) => {
         return findUserByCode(code);
       })
     );
 
-    const team = new Team({ email_to_contact, name, link_submission });
+    const team = new Team({
+      email_to_contact: teamData.email_to_contact,
+      name: teamData.name,
+    });
     const teamDoc = await team.save();
 
     const changeUserTeamPromises = users.map((user) => {

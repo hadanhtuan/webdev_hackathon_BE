@@ -12,11 +12,10 @@ module.exports = {
   },
   createTeam: async (req, res, next) => {
     try {
-      const { email_to_contact, name, link_submission, user_codes } = req.body;
+      const { email_to_contact, name, user_codes } = req.body;
       const DTO = await teamsService.createTeam({
         email_to_contact,
         name,
-        link_submission,
         user_codes,
       });
 

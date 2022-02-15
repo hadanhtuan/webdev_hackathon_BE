@@ -173,7 +173,48 @@
                       "type": "string"
                     },
                     "user": {
-                      "type": "object"
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "string"
+                        },
+                        "fullname": {
+                          "type": "string"
+                        },
+                        "school": {
+                          "type": "string"
+                        },
+                        "major": {
+                          "type": "string"
+                        },
+                        "student_id": {
+                          "type": "string"
+                        },
+                        "phone_number": {
+                          "type": "string"
+                        },
+                        "facebook": {
+                          "type": "string"
+                        },
+                        "short_introduction": {
+                          "type": "string"
+                        },
+                        "personal_registration": {
+                          "type": "boolean"
+                        },
+                        "user_code": {
+                          "type": "string"
+                        },
+                        "fee_status": {
+                          "type": "boolean"
+                        },
+                        "team_id": {
+                          "type": "string"
+                        },
+                        "note_by_admin": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
@@ -209,9 +250,6 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "token": {
-                      "type": "string"
-                    },
                     "user": {
                       "type": "object",
                       "properties": {
@@ -501,9 +539,6 @@
                     "type": "string"
                   },
                   "name": {
-                    "type": "string"
-                  },
-                  "link_submission": {
                     "type": "string"
                   },
                   "user_codes": {
