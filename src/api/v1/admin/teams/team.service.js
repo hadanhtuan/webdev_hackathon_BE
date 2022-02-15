@@ -14,7 +14,7 @@ module.exports = {
 
     return Team.find({
       name: { $regex: new RegExp(name, 'i') },
-      email: { $regex: new RegExp(email, 'i') },
+      email_to_contact: { $regex: new RegExp(email, 'i') },
     });
   },
   createTeam: async (teamData) => {
