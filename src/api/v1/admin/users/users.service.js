@@ -4,7 +4,7 @@ const { AppError } = require('../../../../common/error/error');
 const User = require('../../../../models/user');
 
 async function getUsers({username, email, fullname, student_id}) {
-    let query = User.find()
+    let query = User.find({role: {'$ne': 'admin'}})
 
     if (username != null && username != '') {
 		query = query.regex('username', new RegExp(username, 'i'));
@@ -21,6 +21,10 @@ async function getUsers({username, email, fullname, student_id}) {
 
     try {
         const users = await query.exec();
+
+        users.forEach( user => {
+            user.password = null;
+        })
 
         return {
             users

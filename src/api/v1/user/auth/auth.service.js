@@ -25,8 +25,11 @@ async function login(body) {
         }
 
         const passcmp = await bcrypt.compare(body.password, user.password);
+
         
         if(passcmp) {
+            user.password = null;
+            
             return {
                 user: user,
                 token: jwt.sign({ id: user._id }, process.env.SECRET)
@@ -82,6 +85,8 @@ async function signup(body) {
         body.user_code = crypto.randomBytes(6).toString("hex");
 
         const user2 = await User.create(body)
+
+        user2.password = null
 
         return {
             user: user2,

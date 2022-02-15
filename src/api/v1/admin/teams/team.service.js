@@ -14,7 +14,7 @@ module.exports = {
 
     const teams = await Team.find({
       name: { $regex: new RegExp(name, 'i') },
-      email: { $regex: new RegExp(email, 'i') },
+      email_to_contact: { $regex: new RegExp(email, 'i') },
     });
     const teamsWithNumMem = await Promise.all(
       teams.map(async (team) => {
