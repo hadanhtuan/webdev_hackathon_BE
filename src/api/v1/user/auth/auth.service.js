@@ -63,7 +63,7 @@ async function signup(body) {
 
     if(error) {
         console.log(error)
-        throw new AppError(400, 'Wrong some field');
+        throw new AppError(400, 'Invalid input');
     }
 
     try {

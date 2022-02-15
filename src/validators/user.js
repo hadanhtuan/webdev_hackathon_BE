@@ -19,24 +19,37 @@ const signupUserSchema = joi.object({
   personal_registration: joi.boolean().required(),
 });
 
-const editUserSchema = joi.object({
+// const editUserSchema = joi.object({
+//   email: joi.string().empty('').email(),
+//   password: joi.string().empty(''),
+//   fullname: joi.string().empty(''),
+//   school: joi.string().empty(''),
+//   major: joi.string(),
+//   student_id: joi.string().empty(''),
+//   phone_number: joi.number(),
+//   facebook: joi.string().empty(''),
+//   short_introduction: joi.string(),
+//   personal_registration: joi.boolean(),
+//   fee_status: joi.boolean(),
+//   team_id: joi.string(),
+//   note_by_admin: joi.string(),
+// });
+
+const updateUserSchema = joi.object({
   email: joi.string().empty('').email(),
   password: joi.string().empty(''),
   fullname: joi.string().empty(''),
   school: joi.string().empty(''),
   major: joi.string(),
   student_id: joi.string().empty(''),
-  phone_number: joi.number(),
+  phone_number: joi.string(),
   facebook: joi.string().empty(''),
   short_introduction: joi.string(),
   personal_registration: joi.boolean(),
-  fee_status: joi.boolean(),
-  team_id: joi.string(),
-  note_by_admin: joi.string(),
 });
 
 module.exports = {
   loginUserSchema,
   signupUserSchema,
-  editUserSchema,
+  updateUserSchema,
 };
