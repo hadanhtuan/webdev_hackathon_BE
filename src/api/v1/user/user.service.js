@@ -62,17 +62,20 @@ async function getTeam(body) {
   }
 
   const users = await User.find({ team_id: user.team_id });
-  users.forEach((user) => {
-    user.id = user._id;
-    delete user.password;
-    delete user._id;
-    delete user.__v;
+  const cleanedUsers = users.map((user) => {
+    const cleanedUser = { id: user._id, ...user._doc };
+    delete cleanedUser.password;
+    delete cleanedUser._id;
+    delete cleanedUser.__v;
+    return cleanedUser;
   });
 
-  let team2 = team._doc;
-  team2.team_member = users;
+  const cleanedTeam = { id: team._id, ...team._doc };
+  cleanedTeam.team_member = cleanedUsers;
+  delete cleanedTeam._id;
+  delete cleanedTeam.__v;
 
-  return { team: team2 };
+  return { team: cleanedTeam };
 }
 
 module.exports = {
