@@ -374,8 +374,13 @@
     },
     "/api/v1/user/team": {
       "get": {
-        "tags": ["user", "teams"],
+        "tags": ["user"],
         "summary": "Get user team info with team member",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "Get successful",
@@ -722,7 +727,7 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["admin", "teams"],
+        "tags": ["admin"],
         "summary": "Get teams",
         "responses": {
           "200": {
@@ -778,7 +783,7 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["admin", "teams"],
+        "tags": ["admin"],
         "summary": "Create teams",
         "requestBody": {
           "content": {
@@ -807,6 +812,9 @@
           "201": {
             "description": "Create successful"
           },
+          "400": {
+            "description": "Invalid input"
+          },
           "401": {
             "description": "Not authorized"
           },
@@ -818,7 +826,7 @@
     },
     "/api/v1/admin/teams/{id}": {
       "get": {
-        "tags": ["admin", "teams"],
+        "tags": ["admin"],
         "security": [
           {
             "bearerAuth": []
@@ -942,7 +950,7 @@
             "bearerAuth": []
           }
         ],
-        "tags": ["admin", "teams"],
+        "tags": ["admin"],
         "requestBody": {
           "content": {
             "application/json": {
@@ -969,6 +977,49 @@
           },
           "404": {
             "description": "User or team not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["admin"],
+        "summary": "Update team info",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email_to_contact": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "Team not found"
           },
           "500": {
             "description": "Internal server error"
@@ -1004,7 +1055,7 @@
             "description": "User Code"
           }
         ],
-        "tags": ["admin", "teams"],
+        "tags": ["admin"],
         "responses": {
           "200": {
             "description": "Delete successful"

@@ -59,4 +59,16 @@ module.exports = {
       next(error);
     }
   },
+  updateTeam: async (req, res, next) => {
+    try {
+      const { email_to_contact, name } = req.body;
+      const { id } = req.params;
+      await teamsService.updateTeam(id, email_to_contact, name);
+      res.status(200).json({
+        message: 'Update successful',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };

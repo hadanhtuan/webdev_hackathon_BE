@@ -1,7 +1,10 @@
 const Team = require('../../../../models/team');
 const User = require('../../../../models/user');
 const { AppError } = require('../../../../common/error/error');
-const { createTeamSchema } = require('../../../../validators/team');
+const {
+  createTeamSchema,
+  updateTeamSchema,
+} = require('../../../../validators/team');
 const mongoose = require('mongoose');
 
 module.exports = {
@@ -95,6 +98,28 @@ module.exports = {
     }
     user.team_id = null;
     return user.save();
+  },
+  updateTeam: async (teamId, email_to_contact, name) => {
+    const { error, value } = updateTeamSchema.validate({
+      email_to_contact,
+      name,
+    });
+    if (error) {
+      throw new AppError(400, 'Invalid input data');
+    }
+    if (teamId.length !== 24) {
+      // mongo object id length: 24
+      throw new AppError(400, 'Invalid Object Id');
+    }
+    const team = await Team.findById(teamId);
+    if (!team) {
+      throw new AppError(404, 'Team not found');
+    }
+    team.email_to_contact = email_to_contact
+      ? email_to_contact
+      : team.email_to_contact;
+    team.name = name ? name : team.name;
+    return team.save();
   },
 };
 
