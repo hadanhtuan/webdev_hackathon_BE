@@ -55,8 +55,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
                         "email": {
                           "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "default": "user"
                         },
                         "fullname": {
                           "type": "string"
@@ -106,6 +116,9 @@
           },
           "400": {
             "description": "Bad request"
+          },
+          "404": {
+            "description": "Not found"
           },
           "500": {
             "description": "Internal server error"
@@ -175,8 +188,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
                         "email": {
                           "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "default": "user"
                         },
                         "fullname": {
                           "type": "string"
@@ -209,7 +232,8 @@
                           "type": "boolean"
                         },
                         "team_id": {
-                          "type": "string"
+                          "type": "string",
+                          "default": null
                         },
                         "note_by_admin": {
                           "type": "string"
@@ -253,8 +277,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
                         "email": {
                           "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "default": "user"
                         },
                         "fullname": {
                           "type": "string"
@@ -422,8 +456,18 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
                           "email": {
                             "type": "string"
+                          },
+                          "role": {
+                            "type": "string",
+                            "default": "user"
                           },
                           "fullname": {
                             "type": "string"
@@ -586,8 +630,18 @@
                   "items": {
                     "type": "object",
                     "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "username": {
+                        "type": "string"
+                      },
                       "email": {
                         "type": "string"
+                      },
+                      "role": {
+                        "type": "string",
+                        "default": "user"
                       },
                       "fullname": {
                         "type": "string"
@@ -671,8 +725,18 @@
                     "user": {
                       "type": "object",
                       "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "username": {
+                          "type": "string"
+                        },
                         "email": {
                           "type": "string"
+                        },
+                        "role": {
+                          "type": "string",
+                          "default": "user"
                         },
                         "fullname": {
                           "type": "string"
@@ -716,6 +780,18 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Invalid id"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Interal server error"
           }
         }
       }
@@ -885,8 +961,18 @@
                       "items": {
                         "type": "object",
                         "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "username": {
+                            "type": "string"
+                          },
                           "email": {
                             "type": "string"
+                          },
+                          "role": {
+                            "type": "string",
+                            "default": "user"
                           },
                           "fullname": {
                             "type": "string"
@@ -951,6 +1037,17 @@
           }
         ],
         "tags": ["admin"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The team id"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
@@ -991,6 +1088,17 @@
         ],
         "tags": ["admin"],
         "summary": "Update team info",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The team id"
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {

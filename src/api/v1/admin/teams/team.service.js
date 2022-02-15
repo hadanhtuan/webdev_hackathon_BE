@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Team = require('../../../../models/team');
 const User = require('../../../../models/user');
 const { AppError } = require('../../../../common/error/error');
@@ -5,25 +6,21 @@ const {
   createTeamSchema,
   updateTeamSchema,
 } = require('../../../../validators/team');
-const mongoose = require('mongoose');
+const findUserByCode = require('../../../../common/utils/findUserByCode');
 
 module.exports = {
   getTeams: async (name, email) => {
-    if (!name) {
-      name = '';
-    }
-    if (!email) {
-      email = '';
-    }
-
     const teams = await Team.find({
-      name: { $regex: new RegExp(name, 'i') },
-      email_to_contact: { $regex: new RegExp(email, 'i') },
+      name: { $regex: new RegExp(name || '', 'i') },
+      email_to_contact: { $regex: new RegExp(email || '', 'i') },
     });
     const teamsWithNumMem = await Promise.all(
       teams.map(async (team) => {
         const numberTeamMember = await User.find({ team_id: team._id }).count();
-        return { ...team._doc, numberTeamMember };
+        const cleanedTeam = { id: team._id, ...team._doc, numberTeamMember };
+        delete cleanedTeam._id;
+        delete cleanedTeam.__v;
+        return cleanedTeam;
       })
     );
     return teamsWithNumMem;
@@ -34,9 +31,7 @@ module.exports = {
       throw new AppError(400, 'Invalid input data');
     }
     const users = await Promise.all(
-      teamData.user_codes.map((code) => {
-        return findUserByCode(code);
-      })
+      teamData.user_codes.map((code) => findUserByCode(code))
     );
 
     const team = new Team({
@@ -65,7 +60,14 @@ module.exports = {
     const teamMembers = await User.find({ team_id: team._id })
       .select('-password -__v')
       .exec();
-    return { ...team._doc, teamMembers };
+    const cleanedTeamMembers = teamMembers.map((member) => {
+      const cleanedMember = { id: member._id, ...member._doc };
+      delete cleanedMember._id;
+      return cleanedMember;
+    });
+    const cleanedTeam = { id: team._id, ...team._doc, cleanedTeamMembers };
+    delete cleanedTeam._id;
+    return cleanedTeam;
   },
   addUserToTeam: async (user_code, teamId) => {
     const user = await User.findOne({ user_code });
@@ -115,18 +117,8 @@ module.exports = {
     if (!team) {
       throw new AppError(404, 'Team not found');
     }
-    team.email_to_contact = email_to_contact
-      ? email_to_contact
-      : team.email_to_contact;
-    team.name = name ? name : team.name;
+    team.email_to_contact = email_to_contact || team.email_to_contact;
+    team.name = name || team.name;
     return team.save();
   },
-};
-
-const findUserByCode = async (code) => {
-  const user = await User.findOne({ user_code: code });
-  if (!user) {
-    throw new AppError(400, 'Invalid user code');
-  }
-  return user;
 };
