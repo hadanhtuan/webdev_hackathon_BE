@@ -6,8 +6,9 @@ const isUser = async (req, res, next) => {
 
     try {
         const authHeader = req.headers.authorization;
-
+        
         if (authHeader) {
+    
 
             token = authHeader.split(' ')[1];
 
@@ -23,7 +24,7 @@ const isUser = async (req, res, next) => {
                 throw new AppError(401, 'Not authorized');
             }
 
-            req.user = user;
+            req.body.user = user;
             next();
         }
         else {

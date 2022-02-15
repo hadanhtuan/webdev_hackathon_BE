@@ -36,8 +36,23 @@ async function getUsers({username, email, fullname, student_id}) {
     }
 }
 
+async function getUser(id) {
+    try {
+        const user = await User.findById(id);
+        
+        if(!user) {
+            throw new AppError(404, 'User not found');
+        }
+        return { user }
+    }
+    catch(err) {
+        throw new AppError(500, err.message);
+    }
+}
+
 module.exports = {
-    getUsers
+    getUsers,
+    getUser
 }
 
 
