@@ -11,6 +11,20 @@ const getHelps = async (req, res, next) => {
   }
 };
 
+const updateHelp = async (req, res, next) => {
+  try {
+    const { processing_status, reply_by_admin } = req.body;
+    const { id } = req.params;
+    await helpService.updateHelp(id, { processing_status, reply_by_admin });
+    res.status(200).json({
+      message: 'Update successful',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getHelps,
+  updateHelp,
 };
