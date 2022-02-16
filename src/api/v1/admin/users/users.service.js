@@ -78,7 +78,9 @@ async function updateUser(userId, fee_status, note_by_admin) {
   if (fee_status !== undefined) {
     user.fee_status = fee_status;
   }
-  user.note_by_admin = note_by_admin || user.note_by_admin;
+  if (note_by_admin !== undefined) {
+    user.note_by_admin = note_by_admin;
+  }
   return user.save();
 }
 

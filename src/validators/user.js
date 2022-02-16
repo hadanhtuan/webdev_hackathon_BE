@@ -24,22 +24,22 @@ const updateUserSchema = joi.object({
   password: joi.string().empty(''),
   fullname: joi.string().empty(''),
   school: joi.string().empty(''),
-  major: joi.string().empty(''),
+  major: joi.string().allow(''),
   student_id: joi.string().empty(''),
   phone_number: joi.string().empty(''),
   facebook: joi.string().empty(''),
-  short_introduction: joi.string().empty(''),
+  short_introduction: joi.string().allow('', null),
   personal_registration: joi.boolean(),
 });
 
 const adminUpdateUserSchema = joi.object({
   fee_status: joi.boolean(),
-  note_by_admin: joi.string(),
+  note_by_admin: joi.string().allow('', null),
 });
 
 module.exports = {
   loginUserSchema,
   signupUserSchema,
   updateUserSchema,
-  adminUpdateUserSchema
+  adminUpdateUserSchema,
 };

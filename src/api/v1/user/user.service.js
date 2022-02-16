@@ -52,7 +52,9 @@ async function updateUser(body) {
   user.student_id = body.student_id || user.student_id;
   user.phone_number = body.phone_number || user.phone_number;
   user.facebook = body.facebook || user.facebook;
-  user.short_introduction = body.short_introduction || user.short_introduction;
+  if (body.short_introduction !== undefined) {
+    user.short_introduction = body.short_introduction;
+  }
   user.personal_registration =
     body.personal_registration || user.personal_registration;
 
