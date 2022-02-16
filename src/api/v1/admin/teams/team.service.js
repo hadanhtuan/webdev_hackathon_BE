@@ -85,18 +85,14 @@ module.exports = {
     user.team_id = new mongoose.Types.ObjectId(teamId);
     return user.save();
   },
-  removeUserFromTeam: async ({ teamId, user_code }) => {
-    const user = await User.findOne({ user_code });
-    if (!user) {
-      throw new AppError(404, 'User not found');
-    }
-    if (teamId.length !== 24) {
+  removeUserFromTeam: async (userId) => {
+    if (userId.length !== 24) {
       // mongo object id length: 24
       throw new AppError(400, 'Invalid Object Id');
     }
-    const team = await Team.findById(teamId);
-    if (!team) {
-      throw new AppError(404, 'Team not found');
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new AppError(404, 'User not found');
     }
     user.team_id = null;
     return user.save();
