@@ -2,6 +2,7 @@ const express = require('express');
 const req = require('express/lib/request');
 const { AppError } = require('../../../../common/error/error');
 const User = require('../../../../models/user');
+const { adminUpdateUserSchema } = require('../../../../validators/user');
 
 async function getUsers({ username, email, fullname, student_id }) {
   let query = User.find({ role: { $ne: 'admin' } });
@@ -53,7 +54,39 @@ async function getUser(id) {
   }
 }
 
+async function updateUser(userId, fee_status, note_by_admin) {
+  if (userId.length !== 24) {
+    throw new AppError(400, 'Invalid Id');
+  }
+  const { error, value } = adminUpdateUserSchema.validate({
+    fee_status,
+    note_by_admin,
+  });
+
+  if (error) {
+    throw new AppError(400, 'Invalid Input');
+  }
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new AppError(404, 'User not found');
+  }
+  if (fee_status !== undefined) {
+    user.fee_status = fee_status;
+  }
+  user.note_by_admin = note_by_admin || user.note_by_admin;
+  return user.save();
+}
+
+async function deleteUser(userId) {
+  if (userId.length !== 24) {
+    throw new AppError(400, 'Invalid Id');
+  }
+  return User.findByIdAndDelete(userId);
+}
+
 module.exports = {
   getUsers,
   getUser,
+  updateUser,
+  deleteUser,
 };
