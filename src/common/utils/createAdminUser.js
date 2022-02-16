@@ -3,7 +3,7 @@ const User = require('../../models/user');
 require('dotenv').config();
 
 const createAdminUser = async () => {
-  if (process.env.DEVELOPMENT !== 'true') return null;
+  if (process.env.CREATE_ADMIN !== 'true') return null;
   await User.findOneAndDelete({ username: process.env.ADMINUSERNAME });
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(process.env.ADMINPASSWORD, salt);

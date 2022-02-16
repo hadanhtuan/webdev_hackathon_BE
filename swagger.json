@@ -523,6 +523,166 @@
             "description": "Internal server error"
           }
         }
+      },
+      "patch": {
+        "tags": ["user"],
+        "summary": "Update link submission",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "link_submission": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful"
+          },
+          "400": {
+            "description": "Not a valid link"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "404": {
+            "description": "User have not in team"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/user/help": {
+      "post": {
+        "tags": ["user"],
+        "summary": "Create support",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Create successful"
+          },
+          "400": {
+            "description": "Not a valid input"
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/user/forget-password": {
+      "post": {
+        "summary": "User forget password",
+        "tags": ["user"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send reset link successful"
+          },
+          "400": {
+            "description": "Not a valid email"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/user/reset-password": {
+      "post": {
+        "summary": "Reset user password",
+        "tags": ["user"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset successful"
+          },
+          "400": {
+            "description": "Not a valid input"
+          },
+          "404": {
+            "description": "Reset token not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
       }
     },
     "/api/v1/admin/auth/login": {
