@@ -11,7 +11,12 @@ const updateTeamSchema = joi.object({
   name: joi.string(),
 });
 
+const linkSchema = joi.object({
+  link_submission: joi.string().uri()
+});
+
 module.exports = {
   createTeamSchema,
   updateTeamSchema,
+  linkSchema
 };
