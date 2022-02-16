@@ -2,11 +2,23 @@ const express = require('express');
 const {
   loginUserSchema,
   signupUserSchema,
-  updateUserSchema,
+  updateUserSchema
 } = require('../../../validators/user');
+
+const {
+  linkSchema
+} = require('../../../validators/team');
+
+const {
+  helpSchema
+} = require('../../../validators/help');
+
+
 const { AppError } = require('../../../common/error/error');
 const User = require('../../../models/user');
 const Team = require('../../../models/team');
+const Setting = require('../../../models/setting');
+const Help = require('../../../models/help');
 const bcrypt = require('bcrypt');
 
 async function updateUser(body) {
@@ -28,29 +40,29 @@ async function updateUser(body) {
     throw new AppError(400, 'Invalid input');
   }
 
-  try {
-    let user = body.user;
-
+  let user = body.user;
+  let hash
+  
+  if(body.password) {
     let salt = await bcrypt.genSalt(10);
-    let hash = await bcrypt.hash(body.password, salt);
+    hash = await bcrypt.hash(body.password, salt);
     if (hash.err) throw err;
-
-    user.password = hash;
-    user.email = body.email;
-    user.fullname = body.fullname;
-    user.school = body.school;
-    user.major = body.major;
-    user.student_id = body.student_id;
-    user.phone_number = body.phone_number;
-    user.facebook = body.facebook;
-    user.short_introduction = body.short_introduction;
-    user.personal_registration = body.personal_registration;
-
-    await user.save();
-    return;
-  } catch (err) {
-    throw new AppError(500, err.message);
   }
+
+  user.password = hash || user.password;
+  user.email = body.email || user.email;
+  user.fullname = body.fullname || user.fullname;
+  user.school = body.school || user.school;
+  user.major = body.major || user.major;
+  user.student_id = body.student_id || user.student_id;
+  user.phone_number = body.phone_number || user.phone_number;
+  user.facebook = body.facebook || user.facebook;
+  user.short_introduction = body.short_introduction || user.short_introduction;
+  user.personal_registration = body.personal_registration || user.personal_registration;
+
+  await user.save();
+  return;
+
 }
 
 async function getTeam(body) {
@@ -78,7 +90,56 @@ async function getTeam(body) {
   return { team: cleanedTeam };
 }
 
+async function updateLS(body) {
+
+  const { error, value } = linkSchema.validate({
+    link_submission: body.link_submission
+  })
+
+  if(error) {
+    throw new AppError(400, 'Not a valid link');
+  }
+
+  const allowUpdate = await Setting.findOne({});
+
+  if(!allowUpdate.allow_update_link_submission) {
+    return false
+  }
+
+  if(!body.user.team_id) {
+    throw new AppError(404, 'User have not in team');
+  }
+  const team = await Team.findById(body.user.team_id);
+  console.log(team)
+  team.link_submission = body.link_submission;
+
+  await team.save();
+  return true
+    
+}
+
+async function postHelp(body) {
+  const { error, value } = helpSchema.validate({
+    title: body.title,
+    content: body.content
+  })
+
+  if(error) {
+    throw new AppError(400, 'Not a valid input');
+  }
+
+  await Help.create({
+    user_id: body.user._id,
+    title: body.title,
+    content: body.content
+  });
+
+  return;
+}
+
 module.exports = {
   updateUser,
   getTeam,
+  updateLS,
+  postHelp
 };

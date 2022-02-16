@@ -24,11 +24,11 @@ const updateUserSchema = joi.object({
   password: joi.string().empty(''),
   fullname: joi.string().empty(''),
   school: joi.string().empty(''),
-  major: joi.string(),
+  major: joi.string().empty(''),
   student_id: joi.string().empty(''),
-  phone_number: joi.string(),
+  phone_number: joi.string().empty(''),
   facebook: joi.string().empty(''),
-  short_introduction: joi.string(),
+  short_introduction: joi.string().empty(''),
   personal_registration: joi.boolean(),
 });
 
@@ -41,5 +41,5 @@ module.exports = {
   loginUserSchema,
   signupUserSchema,
   updateUserSchema,
-  adminUpdateUserSchema,
+  adminUpdateUserSchema
 };

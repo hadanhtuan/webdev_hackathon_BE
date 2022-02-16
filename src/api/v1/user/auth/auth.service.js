@@ -60,35 +60,31 @@ async function signup(body) {
     throw new AppError(400, 'Invalid input');
   }
 
-  try {
-    const user = await User.findOne({
-      $or: [{ username: body.username }, { email: body.email }],
-    });
+  const user = await User.findOne({
+    $or: [{ username: body.username }, { email: body.email }],
+  });
 
-    if (user) {
-      throw new AppError(409, 'User or email already exit');
-    }
-
-    let salt = await bcrypt.genSalt(10);
-    let hash = await bcrypt.hash(body.password, salt);
-    if (hash.err) throw err;
-
-    body.password = hash;
-
-    body.user_code = crypto.randomBytes(6).toString('hex');
-
-    const user2 = await User.create(body);
-
-    user2.password = null;
-
-    return {
-      user: user2,
-      token: jwt.sign({ id: user2._id }, process.env.SECRET),
-    };
-  } catch (err) {
-    console.log(err);
-    throw new AppError(500, err.message);
+  if (user) {
+    throw new AppError(409, 'User or email already exit');
   }
+
+  let salt = await bcrypt.genSalt(10);
+  let hash = await bcrypt.hash(body.password, salt);
+  if (hash.err) throw err;
+
+  body.password = hash;
+
+  body.user_code = crypto.randomBytes(6).toString('hex');
+
+  const user2 = await User.create(body);
+
+  user2.password = null;
+
+  return {
+    user: user2,
+    token: jwt.sign({ id: user2._id }, process.env.SECRET),
+  };
+
 }
 
 module.exports = {

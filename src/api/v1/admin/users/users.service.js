@@ -34,24 +34,22 @@ async function getUsers({ username, email, fullname, student_id }) {
 }
 
 async function getUser(id) {
-  try {
-    if (!id || id.length !== 24) {
-      throw new AppError(400, 'Not a valid id');
-    }
-    const user = await User.findById(id);
 
-    if (!user) {
-      throw new AppError(404, 'User not found');
-    }
-
-    const cleanedUser = { id: user._id, ...user._doc };
-    delete cleanedUser._id;
-    delete cleanedUser.__v;
-    delete cleanedUser.password;
-    return cleanedUser;
-  } catch (err) {
-    throw new AppError(500, err.message);
+  if (!id || id.length !== 24) {
+    throw new AppError(400, 'Not a valid id');
   }
+  const user = await User.findById(id);
+
+  if (!user) {
+    throw new AppError(404, 'User not found');
+  }
+
+  const cleanedUser = { id: user._id, ...user._doc };
+  delete cleanedUser._id;
+  delete cleanedUser.__v;
+  delete cleanedUser.password;
+  return cleanedUser;
+
 }
 
 async function updateUser(userId, fee_status, note_by_admin) {
