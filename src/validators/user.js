@@ -32,10 +32,14 @@ const updateUserSchema = joi.object({
   personal_registration: joi.boolean(),
 });
 
-
+const adminUpdateUserSchema = joi.object({
+  fee_status: joi.boolean(),
+  note_by_admin: joi.string(),
+});
 
 module.exports = {
   loginUserSchema,
   signupUserSchema,
-  updateUserSchema
+  updateUserSchema,
+  adminUpdateUserSchema
 };
