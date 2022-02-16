@@ -39,16 +39,15 @@ async function updateLS(req, res, next) {
   try {
     const DTO = await userService.updateLS(req.body);
 
-    if(DTO) {
+    if (DTO) {
       res.status(200).json({
-        message:  'Update successful'
+        message: 'Update successful',
       });
     } else {
       res.status(400).json({
-        message:  'Out of time'
+        message: 'Out of time',
       });
     }
-
   } catch (err) {
     next(err);
   }
@@ -58,18 +57,30 @@ async function postHelp(req, res, next) {
   try {
     const DTO = await userService.postHelp(req.body);
     res.status(200).json({
-      message: 'Create successful'
+      message: 'Create successful',
     });
   } catch (err) {
     next(err);
   }
 }
 
+async function getHelp(req, res, next) {
+  try {
+    const { user } = req.body;
+    const helps = await userService.getHelp(user);
+    res.status(200).json({
+      helps,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 
 module.exports = {
   getUser,
   updateUser,
   getTeam,
   updateLS,
-  postHelp
+  postHelp,
+  getHelp,
 };

@@ -566,6 +566,66 @@
       }
     },
     "/api/v1/user/help": {
+      "get": {
+        "tags": ["user"],
+        "summary": "Get user's support",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "helps": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "user_id": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "processing_status": {
+                            "type": "string",
+                            "enum": ["pending", "complete", "cancel"]
+                          },
+                          "reply_by_admin": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
       "post": {
         "tags": ["user"],
         "summary": "Create support",
@@ -1439,6 +1499,68 @@
           },
           "404": {
             "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/help": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["admin"],
+        "summary": "Get all helps",
+        "responses": {
+          "200": {
+            "description": "Get successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "helps": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "user_id": {
+                            "type": "string"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "content": {
+                            "type": "string"
+                          },
+                          "processing_status": {
+                            "type": "string",
+                            "enum": ["pending", "complete", "cancel"]
+                          },
+                          "reply_by_admin": {
+                            "type": "string"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
           },
           "500": {
             "description": "Internal server error"
