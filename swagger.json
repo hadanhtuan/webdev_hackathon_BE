@@ -928,8 +928,38 @@
                         "fee_status": {
                           "type": "boolean"
                         },
-                        "team_id": {
-                          "type": "string"
+                        "team": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "description": "Team id",
+                              "type": "string"
+                            },
+                            "allow_add_number": {
+                              "type": "boolean",
+                              "readOnly": true
+                            },
+                            "email_to_contact": {
+                              "type": "string",
+                              "readOnly": true
+                            },
+                            "name": {
+                              "type": "string",
+                              "readOnly": true
+                            },
+                            "score": {
+                              "type": "number",
+                              "default": null,
+                              "readOnly": true
+                            },
+                            "link_submission": {
+                              "type": "string",
+                              "default": null
+                            },
+                            "fee_status": {
+                              "type": "boolean"
+                            }
+                          }
                         },
                         "note_by_admin": {
                           "type": "string"

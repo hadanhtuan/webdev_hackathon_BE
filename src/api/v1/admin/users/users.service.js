@@ -2,6 +2,7 @@ const express = require('express');
 const req = require('express/lib/request');
 const { AppError } = require('../../../../common/error/error');
 const User = require('../../../../models/user');
+const Team = require('../../../../models/team');
 const { adminUpdateUserSchema } = require('../../../../validators/user');
 
 async function getUsers({ username, email, fullname, student_id }) {
@@ -34,7 +35,6 @@ async function getUsers({ username, email, fullname, student_id }) {
 }
 
 async function getUser(id) {
-
   if (!id || id.length !== 24) {
     throw new AppError(400, 'Not a valid id');
   }
@@ -43,13 +43,20 @@ async function getUser(id) {
   if (!user) {
     throw new AppError(404, 'User not found');
   }
+  const team = await Team.findById(user.team_id).select('-__v');
 
-  const cleanedUser = { id: user._id, ...user._doc };
+  let cleanedTeam;
+  if (team) {
+    cleanedTeam = { id: team._id, ...team._doc };
+    delete cleanedTeam._id;
+  }
+
+  const cleanedUser = { id: user._id, ...user._doc, team: cleanedTeam };
   delete cleanedUser._id;
   delete cleanedUser.__v;
   delete cleanedUser.password;
+  delete cleanedUser.team_id;
   return cleanedUser;
-
 }
 
 async function updateUser(userId, fee_status, note_by_admin) {
