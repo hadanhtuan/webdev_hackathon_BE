@@ -7,7 +7,7 @@ const helpSchema = joi.object({
 
 const helpUpdateSchema = joi.object({
   processing_status: joi.string().valid('pending', 'complete', 'cancel'),
-  reply_by_admin: joi.string(),
+  reply_by_admin: joi.string().allow('', null),
 });
 
 module.exports = {

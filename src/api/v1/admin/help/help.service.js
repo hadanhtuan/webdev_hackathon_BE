@@ -28,8 +28,12 @@ const updateHelp = async (id, { processing_status, reply_by_admin }) => {
   if (!help) {
     throw new AppError(404, 'Help not found');
   }
-  help.processing_status = processing_status || help.processing_status;
-  help.reply_by_admin = reply_by_admin || help.reply_by_admin;
+  if (processing_status !== undefined) {
+    help.processing_status = processing_status;
+  }
+  if (reply_by_admin !== undefined) {
+    help.reply_by_admin = reply_by_admin;
+  }
   return help.save();
 };
 
