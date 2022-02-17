@@ -49,9 +49,9 @@ module.exports = {
   },
   removeUserFromTeam: async (req, res, next) => {
     try {
-      const { userId } = req.params;
+      const { id } = req.params;
 
-      await teamsService.removeUserFromTeam(userId);
+      await teamsService.removeUserFromTeam(id);
       res.status(200).json({
         message: 'Remove from team successful',
       });
