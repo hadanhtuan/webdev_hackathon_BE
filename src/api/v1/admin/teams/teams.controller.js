@@ -71,4 +71,14 @@ module.exports = {
       next(error);
     }
   },
+  deleteTeam: async (req, res, next) => {
+    try {
+      await teamsService.deleteTeam(req.params.id);
+      res.status(200).json({
+        message: 'Delete team successful',
+      });
+    } catch (error) {
+      next(error);
+    }
+  },
 };
