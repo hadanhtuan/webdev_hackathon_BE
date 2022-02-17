@@ -1572,8 +1572,56 @@
                           "id": {
                             "type": "string"
                           },
-                          "user_id": {
-                            "type": "string"
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              },
+                              "role": {
+                                "type": "string",
+                                "default": "user"
+                              },
+                              "fullname": {
+                                "type": "string"
+                              },
+                              "school": {
+                                "type": "string"
+                              },
+                              "major": {
+                                "type": "string"
+                              },
+                              "student_id": {
+                                "type": "string"
+                              },
+                              "phone_number": {
+                                "type": "string"
+                              },
+                              "facebook": {
+                                "type": "string"
+                              },
+                              "short_introduction": {
+                                "type": "string"
+                              },
+                              "personal_registration": {
+                                "type": "boolean"
+                              },
+                              "user_code": {
+                                "type": "string"
+                              },
+                              "fee_status": {
+                                "type": "boolean"
+                              },
+                              "note_by_admin": {
+                                "type": "string"
+                              }
+                            }
                           },
                           "title": {
                             "type": "string"
