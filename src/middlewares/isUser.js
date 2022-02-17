@@ -27,7 +27,12 @@ const isUser = async (req, res, next) => {
       throw new AppError(401, 'Not authorized');
     }
   } catch (err) {
-    next(err);
+    if (err.name === 'JsonWebTokenError') {
+      const error = new AppError(401, 'Not authorized');
+      next(error);
+    } else {
+      next(err);
+    }
   }
 };
 

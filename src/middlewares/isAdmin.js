@@ -32,7 +32,12 @@ const isAdmin = async (req, res, next) => {
     req.body.user = user;
     next();
   } catch (err) {
-    next(err);
+    if (err.name === 'JsonWebTokenError') {
+      const error = new AppError(401, 'Not authorized');
+      next(error);
+    } else {
+      next(err);
+    }
   }
 };
 
