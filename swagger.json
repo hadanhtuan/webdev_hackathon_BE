@@ -667,7 +667,7 @@
         }
       }
     },
-    "/api/v1/user/forget-password": {
+    "/api/v1/user/auth/forget-password": {
       "post": {
         "summary": "User forget password",
         "tags": ["user"],
@@ -706,13 +706,24 @@
         }
       }
     },
-    "/api/v1/user/reset-password": {
+    "/api/v1/user/auth/reset-password/{resetToken}": {
       "post": {
         "summary": "Reset user password",
         "tags": ["user"],
         "security": [
           {
             "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resetToken",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Reset token"
           }
         ],
         "requestBody": {
