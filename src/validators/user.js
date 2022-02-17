@@ -37,9 +37,19 @@ const adminUpdateUserSchema = joi.object({
   note_by_admin: joi.string().allow('', null),
 });
 
+const emailSchema = joi.object({
+  email: joi.string().empty('').email().required(),
+});
+
+const  passwordSchema = joi.object({
+  password: joi.string().empty('').required()
+});
+
 module.exports = {
   loginUserSchema,
   signupUserSchema,
   updateUserSchema,
   adminUpdateUserSchema,
+  emailSchema,
+  passwordSchema
 };
