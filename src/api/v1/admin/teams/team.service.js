@@ -7,6 +7,7 @@ const {
   updateTeamSchema,
 } = require('../../../../validators/team');
 const findUserByCode = require('../../../../common/utils/findUserByCode');
+const recalculateTeamStatusFee = require('../../../../common/utils/recalculateTeamStatusFee');
 
 module.exports = {
   getTeams: async (name, email) => {
@@ -31,7 +32,13 @@ module.exports = {
       throw new AppError(400, 'Invalid input data');
     }
     const users = await Promise.all(
-      teamData.user_codes.map((code) => findUserByCode(code))
+      teamData.user_codes.map(async (code) => {
+        const user = await findUserByCode(code);
+        if (user.team_id) {
+          throw new AppError(409, 'User has had team');
+        }
+        return user;
+      })
     );
 
     const team = new Team({
@@ -46,6 +53,7 @@ module.exports = {
     });
 
     await Promise.all(changeUserTeamPromises);
+    await recalculateTeamStatusFee(teamDoc._id);
     return teamDoc;
   },
   getTeamById: async (id) => {
@@ -74,6 +82,9 @@ module.exports = {
     if (!user) {
       throw new AppError(404, 'User not found');
     }
+    if (user.team_id) {
+      throw new AppError(409, 'User has had team');
+    }
     if (teamId.length !== 24) {
       // mongo object id length: 24
       throw new AppError(400, 'Invalid Object Id');
@@ -83,7 +94,9 @@ module.exports = {
       throw new AppError(404, 'Team not found');
     }
     user.team_id = new mongoose.Types.ObjectId(teamId);
-    return user.save();
+    const userDoc = await user.save();
+    await recalculateTeamStatusFee(userDoc.team_id);
+    return userDoc;
   },
   removeUserFromTeam: async (userId) => {
     if (userId.length !== 24) {
@@ -94,8 +107,11 @@ module.exports = {
     if (!user) {
       throw new AppError(404, 'User not found');
     }
+    const teamId = user.team_id;
     user.team_id = null;
-    return user.save();
+    const userDoc = await user.save();
+    recalculateTeamStatusFee(teamId);
+    return userDoc;
   },
   updateTeam: async (teamId, email_to_contact, name) => {
     const { error, value } = updateTeamSchema.validate({

@@ -1229,6 +1229,9 @@
           "401": {
             "description": "Not authorized"
           },
+          "409": {
+            "description": "User has had team"
+          },
           "500": {
             "description": "Internal server error"
           }
@@ -1409,6 +1412,9 @@
           },
           "404": {
             "description": "User or team not found"
+          },
+          "409": {
+            "description": "User has had team"
           },
           "500": {
             "description": "Internal server error"

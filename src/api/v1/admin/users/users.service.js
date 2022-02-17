@@ -4,6 +4,7 @@ const { AppError } = require('../../../../common/error/error');
 const User = require('../../../../models/user');
 const Team = require('../../../../models/team');
 const { adminUpdateUserSchema } = require('../../../../validators/user');
+const recalculateTeamStatusFee = require('../../../../common/utils/recalculateTeamStatusFee');
 
 async function getUsers({ username, email, fullname, student_id }) {
   let query = User.find({ role: { $ne: 'admin' } });
@@ -81,14 +82,25 @@ async function updateUser(userId, fee_status, note_by_admin) {
   if (note_by_admin !== undefined) {
     user.note_by_admin = note_by_admin;
   }
-  return user.save();
+
+  const userDoc = await user.save();
+  if (user.team_id) await recalculateTeamStatusFee(user.team_id);
+  return userDoc;
 }
 
 async function deleteUser(userId) {
   if (userId.length !== 24) {
     throw new AppError(400, 'Invalid Id');
   }
-  return User.findByIdAndDelete(userId);
+  const user = await User.findById(userId);
+  if (!user) {
+    throw new AppError(404, 'user not found');
+  }
+  const teamId = user.team_id;
+  await User.findByIdAndDelete(userId);
+  if (teamId) {
+    await recalculateTeamStatusFee(teamId);
+  }
 }
 
 module.exports = {
