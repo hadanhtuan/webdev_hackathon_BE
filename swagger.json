@@ -257,6 +257,85 @@
         }
       }
     },
+    "/api/v1/user/auth/forget-password": {
+      "post": {
+        "summary": "User forget password",
+        "tags": ["user"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Send reset link successful"
+          },
+          "400": {
+            "description": "Not a valid email"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/user/auth/reset-password/{resetToken}": {
+      "post": {
+        "summary": "Reset user password",
+        "tags": ["user"],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resetToken",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Reset token"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Reset successful"
+          },
+          "400": {
+            "description": "Not a valid input"
+          },
+          "404": {
+            "description": "Reset token not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/api/v1/user": {
       "get": {
         "tags": ["user"],
@@ -660,95 +739,6 @@
           },
           "401": {
             "description": "Not authorized"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/v1/user/auth/forget-password": {
-      "post": {
-        "summary": "User forget password",
-        "tags": ["user"],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Send reset link successful"
-          },
-          "400": {
-            "description": "Not a valid email"
-          },
-          "404": {
-            "description": "User not found"
-          },
-          "500": {
-            "description": "Internal server error"
-          }
-        }
-      }
-    },
-    "/api/v1/user/auth/reset-password/{resetToken}": {
-      "post": {
-        "summary": "Reset user password",
-        "tags": ["user"],
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "name": "resetToken",
-            "schema": {
-              "type": "string"
-            },
-            "required": true,
-            "description": "Reset token"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "password": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Reset successful"
-          },
-          "400": {
-            "description": "Not a valid input"
-          },
-          "404": {
-            "description": "Reset token not found"
           },
           "500": {
             "description": "Internal server error"
