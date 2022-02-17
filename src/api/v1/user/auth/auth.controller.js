@@ -33,7 +33,31 @@ async function signup(req, res, next) {
   }
 }
 
+async function forgetPassword(req, res, next) {
+  try {
+    const DTO = await authService.forgetPassword(req.body);
+    res.status(200).json({
+      message: "success"
+    })
+  } catch(err) {
+    next(err)
+  }
+}
+
+async function resetPassword(req, res, next) {
+  try {
+    const DTO = await authService.resetPassword(req.body, req.params.resetToken);
+    res.status(200).json({
+      message: "success"
+    })
+  } catch(err) {
+    next(err)
+  }
+}
+
 module.exports = {
   login,
   signup,
+  forgetPassword,
+  resetPassword
 };
