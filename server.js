@@ -5,6 +5,8 @@ const swaggerUi = require('swagger-ui-express');
 const api = require('./src/api');
 const swaggerDoc = require('./swagger.json');
 const createAdminUser = require('./src/common/utils/createAdminUser');
+const createAllowLinkSubmission = require('./src/common/utils/createAllowLinkSubmission');
+
 require('dotenv').config();
 
 const app = express();
@@ -46,6 +48,7 @@ app.use((err, req, res, next) => {
 mongoose
   .connect(process.env.MONGOURI)
   .then(() => createAdminUser())
+  .then(() => createAllowLinkSubmission(false))
   .then(() => {
     app.listen(port);
   })
