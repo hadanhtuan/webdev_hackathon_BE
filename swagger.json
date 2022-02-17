@@ -1475,9 +1475,43 @@
             "description": "Internal server error"
           }
         }
+      },
+      "delete": {
+        "tags": ["admin"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Delete team by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The team id"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete team successful"
+          },
+          "400": {
+            "description": "Invalid id"
+          },
+          "404": {
+            "description": "Team not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
       }
     },
-    "/api/v1/admin/teams/{userId}": {
+    "/api/v1/admin/teams/users/{id}": {
       "delete": {
         "summary": "Remove member from team",
         "security": [
@@ -1488,7 +1522,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "userId",
+            "name": "id",
             "required": true,
             "schema": {
               "type": "string"

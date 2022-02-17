@@ -35,6 +35,10 @@ app.get('/', (req, res) => {
   res.redirect('/api-docs');
 });
 
+app.use((req, res, next) => {
+  res.status(404).json('Endpoint not found');
+});
+
 app.use((err, req, res, next) => {
   let { statusCode } = err;
   if (!statusCode) {

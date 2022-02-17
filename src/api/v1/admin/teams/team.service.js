@@ -110,7 +110,7 @@ module.exports = {
     const teamId = user.team_id;
     user.team_id = null;
     const userDoc = await user.save();
-    recalculateTeamStatusFee(teamId);
+    if (teamId) await recalculateTeamStatusFee(teamId);
     return userDoc;
   },
   updateTeam: async (teamId, email_to_contact, name) => {
