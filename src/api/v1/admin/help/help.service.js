@@ -1,15 +1,33 @@
 const Help = require('../../../../models/help');
+const Team = require('../../../../models/team');
 const { helpUpdateSchema } = require('../../../../validators/help');
 const { AppError } = require('../../../../common/error/error');
 
 const getHelps = async (req, res, next) => {
-  const helps = await Help.find().select('-__v');
+  const helps = await Help.find()
+    .select('-__v')
+    .populate('user_id', '-__v -password');
 
-  const cleanedHelps = helps.map((help) => {
-    const cleanedHelp = { id: help._id, ...help._doc };
-    delete cleanedHelp._id;
-    return cleanedHelp;
-  });
+  const cleanedHelps = Promise.all(
+    helps.map(async (help) => {
+      const userDoc = { ...{ ...help.user_id }._doc };
+      const user = { id: userDoc._id, ...userDoc };
+      delete user._id;
+
+      if (user.team_id) {
+        const team = await Team.findById(user.team_id).select('-__v').exec();
+        const cleanedTeam = { id: team._id, ...team._doc };
+        delete cleanedTeam._id;
+        user.team = cleanedTeam;
+        delete user.team_id;
+      }
+
+      const cleanedHelp = { id: help._id.toString(), ...help._doc, user };
+      delete cleanedHelp._id;
+      delete cleanedHelp.user_id;
+      return cleanedHelp;
+    })
+  );
   return cleanedHelps;
 };
 

@@ -133,4 +133,24 @@ module.exports = {
     team.name = name || team.name;
     return team.save();
   },
+  deleteTeam: async (team_id) => {
+    if (team_id.length != 24) {
+      throw new AppError(400, 'Invalid Object Id');
+    }
+
+    const team = await Team.findById(team_id);
+
+    if(!team) {
+      throw new AppError(404, 'Team not found');
+    }
+
+    await team.remove()
+
+    let users = await User.find({team_id})
+    
+    users.forEach(async (user) => {
+      user.team_id = undefined
+      await user.save();
+    })
+  }
 };

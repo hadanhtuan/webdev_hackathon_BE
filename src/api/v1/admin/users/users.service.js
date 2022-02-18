@@ -5,6 +5,7 @@ const User = require('../../../../models/user');
 const Team = require('../../../../models/team');
 const { adminUpdateUserSchema } = require('../../../../validators/user');
 const recalculateTeamStatusFee = require('../../../../common/utils/recalculateTeamStatusFee');
+const Help = require('../../../../models/help');
 
 async function getUsers({ username, email, fullname, student_id }) {
   let query = User.find({ role: { $ne: 'admin' } });
@@ -98,6 +99,7 @@ async function deleteUser(userId) {
   }
   const teamId = user.team_id;
   await User.findByIdAndDelete(userId);
+  await Help.deleteMany({ user_id: userId });
   if (teamId) {
     await recalculateTeamStatusFee(teamId);
   }

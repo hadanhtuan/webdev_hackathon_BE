@@ -1572,8 +1572,89 @@
                           "id": {
                             "type": "string"
                           },
-                          "user_id": {
-                            "type": "string"
+                          "user": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "username": {
+                                "type": "string"
+                              },
+                              "email": {
+                                "type": "string"
+                              },
+                              "role": {
+                                "type": "string",
+                                "default": "user"
+                              },
+                              "fullname": {
+                                "type": "string"
+                              },
+                              "school": {
+                                "type": "string"
+                              },
+                              "major": {
+                                "type": "string"
+                              },
+                              "student_id": {
+                                "type": "string"
+                              },
+                              "phone_number": {
+                                "type": "string"
+                              },
+                              "facebook": {
+                                "type": "string"
+                              },
+                              "short_introduction": {
+                                "type": "string"
+                              },
+                              "personal_registration": {
+                                "type": "boolean"
+                              },
+                              "user_code": {
+                                "type": "string"
+                              },
+                              "fee_status": {
+                                "type": "boolean"
+                              },
+                              "team": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "description": "Team id",
+                                    "type": "string"
+                                  },
+                                  "allow_add_number": {
+                                    "type": "boolean",
+                                    "readOnly": true
+                                  },
+                                  "email_to_contact": {
+                                    "type": "string",
+                                    "readOnly": true
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "readOnly": true
+                                  },
+                                  "score": {
+                                    "type": "number",
+                                    "default": null,
+                                    "readOnly": true
+                                  },
+                                  "link_submission": {
+                                    "type": "string",
+                                    "default": null
+                                  },
+                                  "fee_status": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
+                              "note_by_admin": {
+                                "type": "string"
+                              }
+                            }
                           },
                           "title": {
                             "type": "string"
@@ -1659,6 +1740,76 @@
           },
           "404": {
             "description": "Help not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/v1/admin/setting/allow-update-link-submission": {
+      "get": {
+        "summary": "Get allow update link setting",
+        "tags": ["admin"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "allow_update_link_submission": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Change allow update link setting",
+        "tags": ["admin"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "allow_update_link_submission": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Update successful"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "401": {
+            "description": "Not authorized"
           },
           "500": {
             "description": "Internal server error"
