@@ -57,7 +57,6 @@ async function updateUser(body) {
 
   await user.save();
 
-  console.log(body.personal_registration)
   return;
 }
 
