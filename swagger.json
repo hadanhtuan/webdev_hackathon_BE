@@ -1816,6 +1816,36 @@
           }
         }
       }
+    },
+    "/api/v1/admin/excel": {
+      "get": {
+        "summary": "Get excel file",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["admin"],
+        "responses": {
+          "200": {
+            "description": "Get .xlsx File",
+            "content": {
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Not authorized"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
     }
   }
 }
