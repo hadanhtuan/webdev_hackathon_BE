@@ -27,7 +27,7 @@ async function login(body) {
   const user = await User.findOne({ username: body.username });
 
   if (!user) {
-    throw new AppError(404, 'Wrong username or password');
+    throw new AppError(401, 'Wrong username or password');
   }
 
   const passcmp = await bcrypt.compare(body.password, user.password);
@@ -40,7 +40,7 @@ async function login(body) {
       token: jwt.sign({ id: user._id }, process.env.SECRET),
     };
   } else {
-    throw new AppError(404, 'Wrong username or password');
+    throw new AppError(401, 'Wrong username or password');
   }
 }
 
