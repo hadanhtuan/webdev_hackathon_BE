@@ -11,11 +11,11 @@ const signupUserSchema = joi.object({
   password: joi.string().empty('').required(),
   fullname: joi.string().empty('').required(),
   school: joi.string().empty('').required(),
-  major: joi.string(),
+  major: joi.string().empty('').allow('', null),
   student_id: joi.string().empty('').required(),
   phone_number: joi.string().required(),
   facebook: joi.string().empty('').required(),
-  short_introduction: joi.string(),
+  short_introduction: joi.string().empty('').allow('', null),
   personal_registration: joi.boolean().required(),
 });
 
