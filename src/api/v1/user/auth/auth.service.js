@@ -109,7 +109,7 @@ async function forgetPassword({email}) {
   const resetToken = user.getResetPasswordToken();  //tạo reset token cho user
   await user.save();
 
-  const resetUrl = `http://localhost:4200/reset-password/${resetToken}`;
+  const resetUrl = process.env.RESET_URL + resetToken;
 
   const message = `
   <h1>You have requested a password reset</h1>
