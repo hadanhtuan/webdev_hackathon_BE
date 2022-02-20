@@ -14,13 +14,13 @@ const getHelps = async (req, res, next) => {
       const user = { id: userDoc._id, ...userDoc };
       delete user._id;
 
-      if (user.team_id) {
-        const team = await Team.findById(user.team_id).select('-__v').exec();
-        const cleanedTeam = { id: team._id, ...team._doc };
-        delete cleanedTeam._id;
-        user.team = cleanedTeam;
-        delete user.team_id;
-      }
+      // if (user.team_id) {
+      //   const team = await Team.findById(user.team_id).select('-__v').exec();
+      //   const cleanedTeam = { id: team._id, ...team._doc };
+      //   delete cleanedTeam._id;
+      //   user.team = cleanedTeam;
+      //   delete user.team_id;
+      // }
 
       const cleanedHelp = { id: help._id.toString(), ...help._doc, user };
       delete cleanedHelp._id;
