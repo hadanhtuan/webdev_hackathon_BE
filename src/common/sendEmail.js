@@ -13,7 +13,7 @@ async function sendEmail(options) {
 		secure: true,
 		auth: {
 			type: 'OAUTH2',
-			user: 'hadanhtuan1210@gmail.com',
+			user: process.env.MAIL,
 			clientId: process.env.CLIENT_ID,
 			clientSecret: process.env.CLIENT_SECRET,
 			accessToken: accessToken,
