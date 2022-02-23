@@ -40,6 +40,7 @@ const helpColumns = [
   { header: 'Content', key: 'content', width: 50 },
   { header: 'Processing Status', key: 'processing_status', width: 20 },
   { header: 'Reply by admin', key: 'reply_by_admin', width: 50 },
+  { header: 'Created At', key: 'created_at', width: 30 },
   { header: 'Username', key: 'username', width: 30 },
   { header: 'Email', key: 'email', width: 40 },
   { header: 'Password', key: 'password', width: 30 },

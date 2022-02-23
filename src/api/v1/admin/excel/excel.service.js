@@ -42,6 +42,11 @@ const getExcelFile = async () => {
       const user = await User.findById(help.user_id);
       const _id = help._id.toString();
       const user_id = help.user_id.toString();
+      const formater = Intl.DateTimeFormat('en', {
+        dateStyle: 'medium',
+        timeStyle: 'medium',
+      });
+      const created_at = formater.format(help.created_at);
       let team_name = '';
       let team_id = '';
       if (user.team_id) {
@@ -49,7 +54,15 @@ const getExcelFile = async () => {
         team_name = team.name;
         team_id = user.team_id.toString();
       }
-      return { ...help._doc, ...user._doc, team_name, team_id, user_id, _id };
+      return {
+        ...help._doc,
+        ...user._doc,
+        team_name,
+        team_id,
+        user_id,
+        _id,
+        created_at,
+      };
     })
   );
   await createSheet(
