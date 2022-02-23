@@ -23,7 +23,6 @@ const getExcelFile = async () => {
       }
       const _id = user._id.toString();
       const exportUser = { ...user._doc, team_name, _id, team_id };
-      console.log(exportUser);
       return exportUser;
     })
   );
