@@ -1,46 +1,79 @@
 const exceljs = require('exceljs');
 const User = require('../../../../models/user');
 const Team = require('../../../../models/team');
+const Help = require('../../../../models/help');
 const {
   createSheet,
   writeExcelToDisk,
 } = require('../../../../common/excel/index');
 
-const userColumns = [
-  { header: 'Username', key: 'username', width: 30 },
-  { header: 'Name', key: 'email', width: 30 },
-  { header: 'Full name', key: 'fullname', width: 30 },
-  { header: 'School', key: 'school', width: 30 },
-  { header: 'Major', key: 'major', width: 30 },
-  { header: 'Student Id', key: 'student_id', width: 30 },
-  { header: 'Phone number', key: 'phone_number', width: 30 },
-  { header: 'Facebook', key: 'facebook', width: 30 },
-  { header: 'Short introduction', key: 'short_introduction', width: 30 },
-  {
-    header: 'Personal Registration',
-    key: 'personal_registration',
-    width: 30,
-  },
-  { header: 'User code', key: 'user_code', width: 30 },
-  { header: 'Fee status', key: 'fee_status', width: 30 },
-  { header: 'Team Id', key: 'team_id', width: 30 },
-  { header: 'Note by admin', key: 'note_by_admin', width: 30 },
-];
-
-const teamColumns = [
-  { header: 'Email to contact', key: 'email_to_contact', width: 30 },
-  { header: 'Name', key: 'name', width: 30 },
-  { header: 'Score', key: 'score', width: 30 },
-  { header: 'Link Submission', key: 'link_submission', width: 30 },
-  { header: 'Fee Status', key: 'fee_status', width: 30 },
-];
+const { userColumns, teamColumns, helpColumns } = require('./excel.columns');
 
 const getExcelFile = async () => {
   const workbook = new exceljs.Workbook();
   const users = await User.find({ role: 'user' });
+  const exportUsers = await Promise.all(
+    users.map(async (user) => {
+      let team_name = '';
+      let team_id = '';
+      if (user.team_id) {
+        const team = await Team.findById(user.team_id);
+        team_name = team.name;
+        team_id = user.team_id.toString();
+      }
+      const _id = user._id.toString();
+      const exportUser = { ...user._doc, team_name, _id, team_id };
+      console.log(exportUser);
+      return exportUser;
+    })
+  );
   const teams = await Team.find({});
-  await createSheet(users, userColumns, 'Users', workbook, 'A1:O1');
-  await createSheet(teams, teamColumns, 'Team', workbook, 'A1:E1');
+  const exportTeams = await Promise.all(
+    teams.map(async (team) => {
+      const _id = team._id.toString();
+      const team_members = await User.find({
+        team_id: team._id.toString(),
+      }).count();
+      return { ...team._doc, team_members };
+    })
+  );
+  const helps = await Help.find({});
+  const exportHelps = await Promise.all(
+    helps.map(async (help) => {
+      const user = await User.findById(help.user_id);
+      const _id = help._id.toString();
+      const user_id = help.user_id.toString();
+      let team_name = '';
+      let team_id = '';
+      if (user.team_id) {
+        const team = await Team.findById(user.team_id);
+        team_name = team.name;
+        team_id = user.team_id.toString();
+      }
+      return { ...help._doc, ...user._doc, team_name, team_id, user_id, _id };
+    })
+  );
+  await createSheet(
+    exportUsers,
+    userColumns,
+    'Danh sách thí sinh',
+    workbook,
+    'A1:S1'
+  );
+  await createSheet(
+    exportTeams,
+    teamColumns,
+    'Danh sách đội',
+    workbook,
+    'A1:H1'
+  );
+  await createSheet(
+    exportHelps,
+    helpColumns,
+    'Danh sách yêu cầu hỗ trợ',
+    workbook,
+    'A1:V1'
+  );
   const fileName = await writeExcelToDisk(workbook);
   return fileName;
 };

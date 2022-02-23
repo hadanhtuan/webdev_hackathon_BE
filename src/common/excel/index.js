@@ -24,44 +24,43 @@ const styleFirstRow = (sheet) => {
   });
 };
 
-const styleContentRows = (sheet) => {
-  for (let i = 2; i <= sheet.rowCount; i += 1) {
-    if (i % 2 === 0) {
-      sheet.getRow(i.toString()).eachCell((cell) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: '99e9f2' },
-        };
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-      });
-    } else {
-      sheet.getRow(i.toString()).eachCell((cell) => {
-        cell.fill = {
-          type: 'pattern',
-          pattern: 'solid',
-          fgColor: { argb: 'd8f5a2' },
-        };
-        cell.border = {
-          top: { style: 'thin' },
-          left: { style: 'thin' },
-          bottom: { style: 'thin' },
-          right: { style: 'thin' },
-        };
-      });
-    }
-  }
-};
+// const styleContentRows = (sheet) => {
+//   for (let i = 2; i <= sheet.rowCount; i += 1) {
+//     if (i % 2 === 0) {
+//       sheet.getRow(i.toString()).eachCell((cell) => {
+//         cell.fill = {
+//           type: 'pattern',
+//           pattern: 'solid',
+//           fgColor: { argb: '99e9f2' },
+//         };
+//         cell.border = {
+//           top: { style: 'thin' },
+//           left: { style: 'thin' },
+//           bottom: { style: 'thin' },
+//           right: { style: 'thin' },
+//         };
+//       });
+//     } else {
+//       sheet.getRow(i.toString()).eachCell((cell) => {
+//         cell.fill = {
+//           type: 'pattern',
+//           pattern: 'solid',
+//           fgColor: { argb: 'd8f5a2' },
+//         };
+//         cell.border = {
+//           top: { style: 'thin' },
+//           left: { style: 'thin' },
+//           bottom: { style: 'thin' },
+//           right: { style: 'thin' },
+//         };
+//       });
+//     }
+//   }
+// };
 
 const styleSheet = async (sheet) => {
   styleColumn(sheet);
   styleFirstRow(sheet);
-  styleContentRows(sheet);
   return sheet;
 };
 
