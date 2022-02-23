@@ -30,6 +30,7 @@ const getExcelFile = async () => {
   const teams = await Team.find({});
   const exportTeams = await Promise.all(
     teams.map(async (team) => {
+      const _id = team._id.toString();
       const team_members = await User.find({
         team_id: team._id.toString(),
       }).count();

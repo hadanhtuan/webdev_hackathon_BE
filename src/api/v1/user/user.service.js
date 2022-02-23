@@ -53,7 +53,10 @@ async function updateUser(body) {
   user.phone_number = body.phone_number || user.phone_number;
   user.facebook = body.facebook || user.facebook;
   user.short_introduction = body.short_introduction || user.short_introduction;
-  user.personal_registration = body.personal_registration != undefined ? body.personal_registration : user.personal_registration;
+  user.personal_registration =
+    body.personal_registration != undefined
+      ? body.personal_registration
+      : user.personal_registration;
 
   await user.save();
 
@@ -104,7 +107,6 @@ async function updateLS(body) {
     throw new AppError(404, 'User have not in team');
   }
   const team = await Team.findById(body.user.team_id);
-  console.log(team);
   team.link_submission = body.link_submission;
 
   await team.save();
