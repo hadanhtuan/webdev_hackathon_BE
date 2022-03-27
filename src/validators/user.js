@@ -17,6 +17,10 @@ const signupUserSchema = joi.object({
   facebook: joi.string().empty('').required(),
   short_introduction: joi.string().empty('').allow('', null),
   personal_registration: joi.boolean().required(),
+  gpa: joi.number().empty('').allow('', null),
+  graduation_year: joi.number().empty('').allow('', null),
+  gender: joi.string().empty('').allow('', null),
+  date_of_birth: joi.date().empty('').allow('', null)
 });
 
 const updateUserSchema = joi.object({

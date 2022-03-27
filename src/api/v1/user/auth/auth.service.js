@@ -57,6 +57,11 @@ async function signup(body) {
     facebook: body.facebook,
     short_introduction: body.short_introduction,
     personal_registration: body.personal_registration,
+    gpa: body.gpa,
+    graduation_year: body.graduation_year,
+    gender: body.gender,
+    date_of_birth: body.date_of_birth,
+
   });
 
   if (error) {
@@ -79,6 +84,7 @@ async function signup(body) {
   body.password = hash;
 
   body.user_code = crypto.randomBytes(6).toString('hex');
+  body.date_of_birth = body.date_of_birth ? new Date(body.date_of_birth) : null;
 
   const user2 = await User.create(body);
 
