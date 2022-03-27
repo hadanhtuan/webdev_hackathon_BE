@@ -71,6 +71,22 @@ const userSchema = new Schema({
     type: String,
     default: null,
   },
+  gpa: {
+    type: Number,
+    default: null
+  },
+  graduation_year: {
+    type: Number,
+    default: null
+  },
+  gender: {
+    type: String,
+    default: null
+  },
+  date_of_birth: {
+    type: Date,
+    default: null
+  },
   resetPasswordToken: {
     type: String,
   },
