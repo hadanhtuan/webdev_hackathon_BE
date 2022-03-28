@@ -28,6 +28,10 @@ async function updateUser(body) {
     facebook: body.facebook,
     short_introduction: body.short_introduction,
     personal_registration: body.personal_registration,
+    gpa: body.gpa,
+    graduation_year: body.graduation_year,
+    gender: body.gender,
+    date_of_birth: body.date_of_birth
   });
 
   if (error) {
@@ -57,6 +61,11 @@ async function updateUser(body) {
     body.personal_registration != undefined
       ? body.personal_registration
       : user.personal_registration;
+  user.gpa = body.gpa || user.gpa;
+  user.graduation_year = body.graduation_year || user.graduation_year;
+  user.gender = body.gender || user.gender;
+  user.date_of_birth = body.date_of_birth? new Date(body.date_of_birth) : user.date_of_birth;
+  
 
   await user.save();
 
