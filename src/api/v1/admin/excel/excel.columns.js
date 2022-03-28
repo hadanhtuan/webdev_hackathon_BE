@@ -20,6 +20,10 @@ const userColumns = [
   { header: 'Team Id', key: 'team_id', width: 30 },
   { header: 'Team Name', key: 'team_name', width: 40 },
   { header: 'Note by admin', key: 'note_by_admin', width: 40 },
+  { header: 'Graduation year', key: 'graduation_year', width: 40 },
+  { header: 'Gender', key: 'gender', width: 20 },
+  { header: 'GPA', key: 'gpa', width: 20 },
+  { header: 'Date of birth', key: 'date_of_birth', width: 30 },
 ];
 
 const teamColumns = [
@@ -61,6 +65,10 @@ const helpColumns = [
   { header: 'Team Id', key: 'team_id', width: 30 },
   { header: 'Team Name', key: 'team_name', width: 40 },
   { header: 'Note by admin', key: 'note_by_admin', width: 30 },
+  { header: 'Graduation year', key: 'graduation_year', width: 40 },
+  { header: 'Gender', key: 'gender', width: 20 },
+  { header: 'GPA', key: 'gpa', width: 20 },
+  { header: 'Date of birth', key: 'date_of_birth', width: 30 },
 ];
 
 module.exports = {

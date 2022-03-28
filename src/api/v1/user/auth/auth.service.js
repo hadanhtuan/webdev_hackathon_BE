@@ -3,7 +3,7 @@ const {
   loginUserSchema,
   signupUserSchema,
   emailSchema,
-  passwordSchema
+  passwordSchema,
 } = require('../../../../validators/user');
 const { AppError } = require('../../../../common/error/error');
 const User = require('../../../../models/user');
@@ -11,7 +11,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const { required } = require('joi');
-const {sendEmail} = require('../../../../common/sendEmail');
+const { sendEmail } = require('../../../../common/sendEmail');
 
 async function login(body) {
   const { error, value } = loginUserSchema.validate({
@@ -60,8 +60,7 @@ async function signup(body) {
     gpa: body.gpa,
     graduation_year: body.graduation_year,
     gender: body.gender,
-    date_of_birth: body.date_of_birth
-
+    date_of_birth: body.date_of_birth,
   });
 
   if (error) {
@@ -94,12 +93,9 @@ async function signup(body) {
     user: user2,
     token: jwt.sign({ id: user2._id }, process.env.SECRET),
   };
-
 }
 
-
-async function forgetPassword({email}) {
-
+async function forgetPassword({ email }) {
   const { error, value } = emailSchema.validate({ email });
 
   if (error) {
@@ -107,12 +103,12 @@ async function forgetPassword({email}) {
     throw new AppError(400, 'Not a valid email');
   }
 
-  const user = await User.findOne({email: email})
-  if(!user) {
+  const user = await User.findOne({ email: email });
+  if (!user) {
     throw new AppError(404, 'User not found');
   }
 
-  const resetToken = user.getResetPasswordToken();  //tạo reset token cho user
+  const resetToken = user.getResetPasswordToken(); //tạo reset token cho user
   await user.save();
 
   const resetUrl = process.env.RESET_URL + resetToken;
@@ -121,16 +117,15 @@ async function forgetPassword({email}) {
   <h1>You have requested a password reset</h1>
   <p>Please make a put request to the following link:</p>
   <a href=${resetUrl} clicktracking=off>${resetUrl}</a>    `;
-        
+
   await sendEmail({
     to: email,
-    subject: "Reset Password",
+    subject: 'Reset Password',
     text: message,
   });
 }
 
-async function resetPassword({password}, resetToken) {
-
+async function resetPassword({ password }, resetToken) {
   const { error, value } = passwordSchema.validate({ password });
 
   if (error) {
@@ -139,9 +134,9 @@ async function resetPassword({password}, resetToken) {
   }
 
   const resetPasswordToken = crypto
-  .createHash("sha256")
-  .update(resetToken.replace(/\s+/g, ''))
-  .digest("hex");
+    .createHash('sha256')
+    .update(resetToken.replace(/\s+/g, ''))
+    .digest('hex');
 
   const user = await User.findOne({
     resetPasswordToken,
@@ -152,20 +147,19 @@ async function resetPassword({password}, resetToken) {
     throw new AppError(404, 'Reset token not found');
   }
 
-  let salt = await bcrypt.genSalt(10)
-  let hash = await bcrypt.hash(password, salt)
+  let salt = await bcrypt.genSalt(10);
+  let hash = await bcrypt.hash(password, salt);
 
   user.password = hash;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
 
   await user.save();
-
 }
 
 module.exports = {
   login,
   signup,
   forgetPassword,
-  resetPassword
+  resetPassword,
 };

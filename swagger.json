@@ -103,6 +103,19 @@
                         },
                         "note_by_admin": {
                           "type": "string"
+                        },
+                        "gpa": {
+                          "type": "number"
+                        },
+                        "graduation_year": {
+                          "type": "number"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "date_of_birth": {
+                          "type": "string",
+                          "format": "date-time"
                         }
                       }
                     }
@@ -168,6 +181,19 @@
                   },
                   "personal_registration": {
                     "type": "boolean"
+                  },
+                  "gpa": {
+                    "type": "number"
+                  },
+                  "graduation_year": {
+                    "type": "number"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "format": "date-time"
                   }
                 }
               }
@@ -237,6 +263,19 @@
                         },
                         "note_by_admin": {
                           "type": "string"
+                        },
+                        "gpa": {
+                          "type": "number"
+                        },
+                        "graduation_year": {
+                          "type": "number"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "date_of_birth": {
+                          "type": "string",
+                          "format": "date-time"
                         }
                       }
                     }
@@ -404,6 +443,19 @@
                         },
                         "note_by_admin": {
                           "type": "string"
+                        },
+                        "gpa": {
+                          "type": "number"
+                        },
+                        "graduation_year": {
+                          "type": "number"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "date_of_birth": {
+                          "type": "string",
+                          "format": "date-time"
                         }
                       }
                     }
@@ -463,6 +515,19 @@
                   },
                   "personal_registration": {
                     "type": "boolean"
+                  },
+                  "gpa": {
+                    "type": "number"
+                  },
+                  "graduation_year": {
+                    "type": "number"
+                  },
+                  "gender": {
+                    "type": "string"
+                  },
+                  "date_of_birth": {
+                    "type": "string",
+                    "format": "date-time"
                   }
                 }
               }
@@ -583,6 +648,19 @@
                           },
                           "note_by_admin": {
                             "type": "string"
+                          },
+                          "gpa": {
+                            "type": "number"
+                          },
+                          "graduation_year": {
+                            "type": "number"
+                          },
+                          "gender": {
+                            "type": "string"
+                          },
+                          "date_of_birth": {
+                            "type": "string",
+                            "format": "date-time"
                           }
                         }
                       }
@@ -899,6 +977,19 @@
                       },
                       "note_by_admin": {
                         "type": "string"
+                      },
+                      "gpa": {
+                        "type": "number"
+                      },
+                      "graduation_year": {
+                        "type": "number"
+                      },
+                      "gender": {
+                        "type": "string"
+                      },
+                      "date_of_birth": {
+                        "type": "string",
+                        "format": "date-time"
                       }
                     }
                   }
@@ -988,6 +1079,19 @@
                         },
                         "fee_status": {
                           "type": "boolean"
+                        },
+                        "gpa": {
+                          "type": "number"
+                        },
+                        "graduation_year": {
+                          "type": "number"
+                        },
+                        "gender": {
+                          "type": "string"
+                        },
+                        "date_of_birth": {
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "team": {
                           "type": "object",
@@ -1348,6 +1452,19 @@
                           },
                           "note_by_admin": {
                             "type": "string"
+                          },
+                          "gpa": {
+                            "type": "number"
+                          },
+                          "graduation_year": {
+                            "type": "number"
+                          },
+                          "gender": {
+                            "type": "string"
+                          },
+                          "date_of_birth": {
+                            "type": "string",
+                            "format": "date-time"
                           }
                         }
                       }
@@ -1623,6 +1740,19 @@
                               },
                               "note_by_admin": {
                                 "type": "string"
+                              },
+                              "gpa": {
+                                "type": "number"
+                              },
+                              "graduation_year": {
+                                "type": "number"
+                              },
+                              "gender": {
+                                "type": "string"
+                              },
+                              "date_of_birth": {
+                                "type": "string",
+                                "format": "date-time"
                               }
                             }
                           },
