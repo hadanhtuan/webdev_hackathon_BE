@@ -60,7 +60,7 @@ async function signup(body) {
     gpa: body.gpa,
     graduation_year: body.graduation_year,
     gender: body.gender,
-    date_of_birth: body.date_of_birth,
+    date_of_birth: body.date_of_birth
 
   });
 
