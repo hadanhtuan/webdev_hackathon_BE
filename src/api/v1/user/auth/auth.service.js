@@ -82,7 +82,17 @@ async function signup(body) {
 
   body.password = hash;
 
-  body.user_code = crypto.randomBytes(6).toString('hex');
+  while(true)
+  {
+    body.user_code = crypto.randomBytes(4).toString('hex').toUpperCase();
+    user = await User.findOne({
+      user_code:  body.user_code
+    })
+
+    if(!user)
+      break;
+  }
+
   body.date_of_birth = body.date_of_birth ? new Date(body.date_of_birth) : null;
 
   const user2 = await User.create(body);
@@ -114,10 +124,13 @@ async function forgetPassword({ email }) {
   const resetUrl = process.env.RESET_URL + resetToken;
 
   const message = `
-  <h1>You have requested a password reset</h1>
-  <p>Please make a put request to the following link:</p>
-  <a href=${resetUrl} clicktracking=off>${resetUrl}</a>    `;
-
+    <div style="max-width:1200px;margin: 0 auto;">
+      <img style="margin-left:auto;margin-right:auto;display:block;" src="https://res.cloudinary.com/dhshtvtrl/image/upload/v1649219699/277029222_1050665038882369_8007002644319985784_n_oiilit.png" alt="logo">
+      <h1>You have requested a password reset</h1>
+      <p>Please make a put request to the following link:</p>
+      <a href=${resetUrl} clicktracking=off>${resetUrl}</a>    
+    </div>`;
+  
   await sendEmail({
     to: email,
     subject: 'Reset Password',
@@ -155,6 +168,29 @@ async function resetPassword({ password }, resetToken) {
   user.resetPasswordExpire = undefined;
 
   await user.save();
+}
+
+async function sendMessage(email, name)
+{
+  const message = `
+  <div style="max-width:1200px;margin: 0 auto;">
+    <img style="margin-left:auto;margin-right:auto;display:block;" src="https://res.cloudinary.com/dhshtvtrl/image/upload/v1649219699/277029222_1050665038882369_8007002644319985784_n_oiilit.png" alt="logo">
+    <h1>CHÚC MỪNG BẠN ĐÃ TRỞ THÀNH THÍ SINH CỦA WEBDEV ADVENTURE 2022</h1>
+    <p>Xin chào , ${name}</p>
+    <p>Ban tổ chức cuộc thi Webdev Adventure 2022 xin gửi lời cám ơn đến bạn đã đăng ký và hoàn thành lệ phí tham gia chương trình</p>
+    <p>Bạn có thể đến sảnh C của trường Đại học Công Nghệ Thông Tin (khu phố 6 P, Thủ Đức, Thành phố Hồ Chí Minh) để nhận vé và các phần quà lưu niệm đặc biệt của chương trình nhé</p>
+    <p>Liên hệ với chúng tôi qua: </p>
+    <a href="https://www.facebook.com/webdevstudios.org" target="_blank">Fanpage </a>
+    <br>
+    <a href="https://adventure2022.webdevstudios.org/ranking" target="_blank">Website </a>
+  </div>`;
+
+  await sendEmail({
+    to: email,
+    subject: 'Welcome',
+    text: message,
+  });
+  
 }
 
 module.exports = {
