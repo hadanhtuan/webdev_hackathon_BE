@@ -7,6 +7,13 @@ const { adminUpdateUserSchema } = require('../../../../validators/user');
 const recalculateTeamStatusFee = require('../../../../common/utils/recalculateTeamStatusFee');
 const Help = require('../../../../models/help');
 
+function sortUsersByCreatedDate(users) {
+  if (users != null && users.length > 0) {
+    return users.sort((user1, user2) => user2.created_at - user1.created_at);
+  }
+  return users;
+}
+
 async function getUsers({ username, email, fullname, student_id }) {
   let query = User.find({ role: { $ne: 'admin' } });
 
@@ -32,8 +39,7 @@ async function getUsers({ username, email, fullname, student_id }) {
     delete newUser.__v;
     return newUser;
   });
-
-  return newUsers;
+  return sortUsersByCreatedDate(newUsers);
 }
 
 async function getUser(id) {

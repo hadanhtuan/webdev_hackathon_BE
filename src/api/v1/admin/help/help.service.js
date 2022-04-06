@@ -3,12 +3,19 @@ const Team = require('../../../../models/team');
 const { helpUpdateSchema } = require('../../../../validators/help');
 const { AppError } = require('../../../../common/error/error');
 
+function sortHelpByDate(helps) {
+  if (helps != null && helps.length > 0) {
+    return helps.sort((help1, help2) => help2.created_at - help1.created_at);
+  }
+  return helps;
+}
+
 const getHelps = async (req, res, next) => {
   const helps = await Help.find()
     .select('-__v')
     .populate('user_id', '-__v -password');
 
-  const cleanedHelps = Promise.all(
+  const cleanedHelps = await Promise.all(
     helps.map(async (help) => {
       const userDoc = { ...{ ...help.user_id }._doc };
       const user = { id: userDoc._id, ...userDoc };
@@ -28,7 +35,7 @@ const getHelps = async (req, res, next) => {
       return cleanedHelp;
     })
   );
-  return cleanedHelps;
+  return sortHelpByDate(cleanedHelps);
 };
 
 const updateHelp = async (id, { processing_status, reply_by_admin }) => {
