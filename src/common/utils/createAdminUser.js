@@ -9,24 +9,47 @@ const createAdminUser = async () => {
   const hashedPassword = await bcrypt.hash(process.env.ADMINPASSWORD, salt);
   const admin = new User({
     username: process.env.ADMINUSERNAME,
-    email: 'test@test.com',
+    email: 'admin@admin.com',
     password: hashedPassword,
     role: 'admin',
-    fullname: 'test',
-    school: 'test',
-    major: 'test',
-    student_id: 'test',
-    phone_number: 'test',
-    facebook: 'test',
-    short_introduction: 'test',
+    fullname: 'admin',
+    school: 'admin',
+    major: 'admin',
+    student_id: 'admin',
+    phone_number: 'admin',
+    facebook: 'admin',
+    short_introduction: 'admin',
     personal_registration: true,
-    user_code: 'test',
+    user_code: 'admin',
     fee_status: true,
     team_id: null,
     note_by_admin: null,
   });
 
-  return admin.save();
+  const masterAdminHashedPassword = await bcrypt.hash(
+    process.env.MASTERADMINPASSWORD,
+    salt
+  );
+  const masterAdmin = new User({
+    username: process.env.MASTERADMINUSERNAME,
+    email: 'masteradmin@admin.com',
+    password: masterAdminHashedPassword,
+    role: 'master_admin',
+    fullname: 'master admin',
+    school: 'master admin',
+    major: 'master admin',
+    student_id: 'master admin',
+    phone_number: 'master admin',
+    facebook: 'master admin',
+    short_introduction: 'master admin',
+    personal_registration: true,
+    user_code: 'master admin',
+    fee_status: true,
+    team_id: null,
+    note_by_admin: null,
+  });
+
+  return Promise.all([admin.save(), masterAdmin.save()]);
 };
 
 module.exports = createAdminUser;

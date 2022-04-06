@@ -8,6 +8,7 @@ module.exports = {
       const token = authService.createToken(user._id.toString());
       res.status(200).json({
         token,
+        role: user.role,
       });
     } catch (err) {
       next(err);

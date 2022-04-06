@@ -25,10 +25,9 @@ const isAdmin = async (req, res, next) => {
       throw new AppError(404, 'Admin not found');
     }
 
-    if (user.role !== 'admin') {
+    if (user.role !== 'admin' && user.role !== 'master_admin') {
       throw new AppError(401, 'Not authorized');
     }
-
     req.body.user = user;
     next();
   } catch (err) {
