@@ -855,6 +855,10 @@
                   "properties": {
                     "token": {
                       "type": "string"
+                    },
+                    "role": {
+                      "type": "string",
+                      "example": "admin"
                     }
                   }
                 }

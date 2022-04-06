@@ -24,7 +24,12 @@ async function updateUser(req, res, next) {
   try {
     const { fee_status, note_by_admin } = req.body;
     const { id } = req.params;
-    await userService.updateUser(id, fee_status, note_by_admin);
+    await userService.updateUser(
+      id,
+      fee_status,
+      note_by_admin,
+      req.body.user.role
+    );
     res.status(200).json({
       message: 'Update successful',
     });

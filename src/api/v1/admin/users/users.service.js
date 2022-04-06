@@ -15,7 +15,9 @@ function sortUsersByCreatedDate(users) {
 }
 
 async function getUsers({ username, email, fullname, student_id }) {
-  let query = User.find({ role: { $ne: 'admin' } });
+  let query = User.find({
+    $and: [{ role: { $ne: 'admin' } }, { role: { $ne: 'master_admin' } }],
+  });
 
   if (username != null && username !== '') {
     query = query.regex('username', new RegExp(username, 'i'));
@@ -67,7 +69,7 @@ async function getUser(id) {
   return cleanedUser;
 }
 
-async function updateUser(userId, fee_status, note_by_admin) {
+async function updateUser(userId, fee_status, note_by_admin, role) {
   if (userId.length !== 24) {
     throw new AppError(400, 'Invalid Id');
   }
@@ -84,6 +86,12 @@ async function updateUser(userId, fee_status, note_by_admin) {
     throw new AppError(404, 'User not found');
   }
   if (fee_status !== undefined) {
+    if (role !== 'master_admin') {
+      throw new AppError(
+        401,
+        'Only Master Admin is allowed to update this field'
+      );
+    }
     user.fee_status = fee_status;
   }
   if (note_by_admin !== undefined) {
